@@ -1,71 +1,53 @@
-/*==============================================================*/
-/* ibouig ## ibouig@gmail.com                                   */
-/* Nom de SGBD :  MySQL 5.0                                     */
-/* Date de création :  4/2/2016 11:29:47 PM                     */
-/*==============================================================*/
-drop database if exists chatapp;
+-- MySQL : 5.6.17
+-- PHP : 5.5.12 
+-- PHPMyAdmin : 4.1.14
+
+
 create database chatapp ;
 use chatapp;
-
-drop table if exists conversation;
-
-drop table if exists is_friend;
-
-drop table if exists message;
-
-drop table if exists user;
-
-/*==============================================================*/
-/* Table : conversation                                         */
-/*==============================================================*/
-create table conversation
-(
-   idconversation       decimal not null,
-   iduser               decimal not null,
-   use_iduser           decimal not null,
-   convname             text,
-   convdate             date not null,
-   primary key (idconversation)
+-- table conversation
+CREATE TABLE IF NOT EXISTS `conversation`(
+   `idconversation`       int not null AUTO_INCREMENT,
+   `iduser`               int not null,
+   `use_iduser`           int not null,
+   `convname`             varchar(25),
+   `convdate`             date not null,
+   primary key (`idconversation`)
 );
 
-/*==============================================================*/
-/* Table : is_friend                                            */
-/*==============================================================*/
-create table is_friend
-(
-   use_iduser           decimal not null,
-   iduser               decimal not null,
-   friendshipdate       date not null,
-   friendshipstat       text not null,
-   primary key (use_iduser, iduser)
+-- table is_friend
+CREATE TABLE IF NOT EXISTS `is_friend`(
+   `use_iduser`           int not null,
+   `iduser`               int not null,
+   `friendshipdate`       date not null,
+   `friendshipstat`       varchar(255) not null,
+   primary key (`use_iduser`, `iduser`)
 );
 
-/*==============================================================*/
-/* Table : message                                              */
-/*==============================================================*/
-create table message
+-- table message
+
+CREATE TABLE IF NOT EXISTS `message`
 (
-   idmessage            decimal not null,
-   iduser               decimal not null,
-   idconversation       decimal not null,
-   msgcontent           text not null,
-   msgdate              date not null,
-   msgstatus            text,
-   primary key (idmessage)
+   `idmessage`            int not null AUTO_INCREMENT,
+   `iduser`               int not null,
+   `idconversation`       int not null,
+   `msgcontent`           varchar(255) not null,
+   `msgdate`              date not null,
+   `msgstatus`            varchar(255),
+   primary key (`idmessage`)
 );
 
-/*==============================================================*/
-/* Table : user                                                 */
-/*==============================================================*/
-create table user
+-- table user
+
+CREATE TABLE IF NOT EXISTS `user`
 (
-   iduser               decimal not null,
-   username             text not null,
-   password             text not null,
-   email                text not null,
-   phonenumber          text not null,
-   photo                text not null,
-   primary key (iduser)
+   `iduser`               int not null AUTO_INCREMENT,
+   `username`             varchar(25) not null UNIQUE,
+   `password`             varchar(255) not null,
+   `email`                varchar(255) not null UNIQUE,
+   `phonenumber`          varchar(12) UNIQUE,
+   `photo`                varchar(255),
+   primary key (`iduser`)
 );
 
 alter table conversation add constraint fk_convuser1 foreign key (use_iduser)
@@ -85,4 +67,3 @@ alter table message add constraint fk_messageconv foreign key (idconversation)
 
 alter table message add constraint fk_relation_6 foreign key (iduser)
       references user (iduser) on delete restrict on update restrict;
-
