@@ -1,3 +1,8 @@
+-- MySQL : 5.6.17
+-- PHP : 5.5.12 
+-- PHPMyAdmin : 4.1.14
+
+
 create database chatapp ;
 use chatapp;
 -- table conversation
